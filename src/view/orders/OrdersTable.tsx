@@ -14,7 +14,6 @@ import {
   PhoneFilled,
   EyeOutlined,
   PushpinFilled,
-  CarOutlined,
 } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";

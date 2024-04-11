@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {  useEffect, useState } from "react";
 
 import {
   Button,
@@ -10,7 +10,6 @@ import {
   InputNumber,
   Row,
   Select,
-  Typography,
   Upload,
   theme,
   notification,
@@ -23,7 +22,6 @@ import { catagories } from "../../constants/constant";
 
 const { useToken } = theme;
 const { useNotification } = notification;
-const { Title } = Typography;
 
 interface FieldType {
   productName: string;
@@ -40,7 +38,7 @@ const ProductForm = ({ id }: { id: string | undefined }) => {
 
   const [api, contextHolder] = useNotification();
 
-  const { mutate ,isPending} = useMutation({
+  const {  isPending} = useMutation({
     mutationFn: addProduct,
     onSuccess: (data) => {
       showNotification("success",data.message);
@@ -50,7 +48,7 @@ const ProductForm = ({ id }: { id: string | undefined }) => {
     },
   });
 
-  const { error, isLoading, isSuccess, data } = useQuery({
+  const { error, isSuccess, data } = useQuery({
     queryKey: ["Product", { id }],
     queryFn: () => findOneProduct(id || ""),
   });
@@ -69,7 +67,7 @@ const ProductForm = ({ id }: { id: string | undefined }) => {
   }, [error]);
 
   isSuccess && console.log(data.data.product);
-  const onFinish = (values: FieldType) => {
+  const onFinish = () => {
     // const formData = new FormData();
     // formData.append("name", values.productName);
     // formData.append("description", values.description);
