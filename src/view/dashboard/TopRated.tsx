@@ -42,36 +42,41 @@ const TopRated = () => {
   return (
     <>
       {contextHolder}
-      <Card style={{marginBottom:16}}>
-        <Title level={5}>Top Rated Products</Title>
-        <List
-          loading={isLoading}
-          dataSource={isSuccess ? data.data.products.slice(0, 5) : []}
-          renderItem={(item: {
-            name: string;
-            images: string[];
-            rating: number;
-          }) => (
-            <List.Item>
-              <Flex justify="space-between" align="center" flex={1}>
-                <Space>
-                  <Avatar src={item.images[0]} shape="square" />
-                  <Text>{item.name}</Text>
-                </Space>
-                <Tag
-                  style={{
-                    padding: "5px 10px",
-                    borderRadius: 20,
-                  }}
-                >
-                  <StarFilled style={{ color: "#FADB14" }} /> {item.rating}{" "}
-                  Stars
-                </Tag>
-              </Flex>
-            </List.Item>
-          )}
-        />
-      </Card>
+        <Card style={{ marginBottom: 16,height:"calc(50% - 8px)"}}>
+          <Title level={5}>Top Rated Products</Title>
+          <List
+            loading={isLoading}
+            dataSource={isSuccess ? data.data.products.slice(0, 5) : []}
+            renderItem={(item: {
+              name: string;
+              images: string[];
+              rating: number;
+            }) => (
+              <List.Item>
+                <Flex justify="space-between" align="center" flex={1}>
+                  <Space>
+                    <Avatar
+                      src={`${import.meta.env.VITE_API_BACKEND_URL}${
+                        item.images[0]
+                      }`}
+                      shape="square"
+                    />
+                    <Text>{item.name}</Text>
+                  </Space>
+                  <Tag
+                    style={{
+                      padding: "5px 10px",
+                      borderRadius: 20,
+                    }}
+                  >
+                    <StarFilled style={{ color: "#FADB14" }} /> {item.rating}{" "}
+                    Stars
+                  </Tag>
+                </Flex>
+              </List.Item>
+            )}
+          />
+        </Card>
     </>
   );
 };

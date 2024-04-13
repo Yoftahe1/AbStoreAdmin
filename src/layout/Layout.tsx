@@ -16,7 +16,7 @@ import {
 } from "@ant-design/icons";
 import useAdminStore from "../store/Admin";
 
-import logo from "../../public/abLogo.svg";
+import logo from "../assets/abLogo.svg";
 const { Title } = Typography;
 const { Sider, Content } = Layout;
 

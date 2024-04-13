@@ -19,6 +19,7 @@ import AddProduct from "./view/add_product/AddProduct.tsx";
 import AllProducts from "./view/all_products/AllProducts.tsx";
 
 import "./index.css";
+import NotFound from "./pages/NotFound.tsx";
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/*",
+    element: <NotFound />,
+  }
 ]);
 
 const queryClient = new QueryClient();

@@ -29,7 +29,7 @@ const CustomPieChart = () => {
   }, [error]);
 
   return (
-    <Card>
+    <Card style={{ height: "calc(50% - 8px)" }}>
       {contextHolder}
       <Title level={5}>Users By Status</Title>
       <br />
@@ -57,12 +57,9 @@ const CustomPieChart = () => {
               </Flex>
             ))}
         </Flex>
-        <br />
       </Flex>
     </Card>
   );
 };
 
 export default CustomPieChart;
-
-

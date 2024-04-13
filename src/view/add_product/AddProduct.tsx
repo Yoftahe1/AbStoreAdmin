@@ -37,17 +37,17 @@ interface FieldType {
 const AddProduct = () => {
   const { token } = useToken();
   const [fileList, setFileList] = useState<any[]>([]);
-
+  const [form] = Form.useForm();
   const [api, contextHolder] = useNotification();
 
-  const { mutate ,isPending} = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: addProduct,
     onSuccess: (data) => {
-      showNotification("success",data.message);
-
+      form.resetFields();
+      showNotification("success", data.message);
     },
     onError: (error) => {
-      showNotification("error",error.message);
+      showNotification("error", error.message);
     },
   });
 
@@ -82,7 +82,12 @@ const AddProduct = () => {
       {contextHolder}
       <Title level={4}>Add Product</Title>
       <br />
-      <Form name="editProduct" onFinish={onFinish} layout="vertical">
+      <Form
+        form={form}
+        name="editProduct"
+        onFinish={onFinish}
+        layout="vertical"
+      >
         <Flex gap={30}>
           <div style={{ width: "60%" }}>
             <Flex gap={20}>
@@ -309,7 +314,13 @@ const AddProduct = () => {
           </div>
         </Flex>
         <Form.Item>
-          <Button type="primary" htmlType="submit" size="large" disabled={isPending} loading={isPending}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            size="large"
+            disabled={isPending}
+            loading={isPending}
+          >
             Add Product
           </Button>
         </Form.Item>

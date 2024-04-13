@@ -64,10 +64,10 @@ const SignIn = () => {
       navigate("/", { replace: true });
     },
     onError: (error) => {
-      console.log(error);
       showNotification("error",error.message);
     },
   });
+  
   const { mutate: forgotMutate, isPending: forgetIsPending } = useMutation({
     mutationFn: forgotPasswordAdmin,
     onSuccess: (data) => {
@@ -112,12 +112,6 @@ const SignIn = () => {
             src={image}
             style={{ width: "100%", borderRadius: 50, objectFit: "cover" }}
           />
-          <Button
-            onClick={() => navigate("/auth/signup")}
-            style={{ position: "absolute", right: 50, top: 50 }}
-          >
-            Sign Up
-          </Button>
           <div
             style={{
               position: "absolute",

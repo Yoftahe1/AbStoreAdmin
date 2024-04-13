@@ -44,10 +44,17 @@ const OrderTable = () => {
           title="Product"
           dataIndex="productId"
           key="product"
-          render={({ name, images }: { name: string; images: string[] }) => (
+          render={(productId) => (
             <Space>
-              <Avatar src={images[0]} shape="square" />
-              <Text>{name}</Text>
+              <Avatar
+                src={
+                  productId
+                    ? `${import.meta.env.VITE_API_BACKEND_URL}${productId.images[0]}`
+                    : null
+                }
+                shape="square"
+              />
+              <Text>{productId ? productId.name : "..."}</Text>
             </Space>
           )}
         />
@@ -55,8 +62,8 @@ const OrderTable = () => {
           title="Category"
           dataIndex="productId"
           key="category"
-          render={({ category }: { category: string }) => (
-            <Text>{category}</Text>
+          render={(productId) => (
+            <Text>{productId ? productId.category : "..."}</Text>
           )}
         />
         <Column
@@ -69,7 +76,9 @@ const OrderTable = () => {
           title="Price"
           dataIndex="productId"
           key="price"
-          render={({ price }: { price: number }) => <Text>{price} ETB</Text>}
+          render={(productId) => (
+            <Text>{productId ? productId.price : "..."} ETB</Text>
+          )}
         />
         <Column
           title="Quantity"
@@ -77,14 +86,15 @@ const OrderTable = () => {
           key="quantity"
           render={(text: string) => <Text>{text}</Text>}
         />
-        <Column
+         <Column
           title="Sub-Total Price"
           key="subTotal"
+          width={200}
           render={(
             _,
-            record: { quantity: number; productId: { price: number } }
-          ) => <Tag color="green">{record.quantity * record.productId.price} ETB</Tag>}
-        />
+            record: { quantity: number; productId: { price: number }|null }
+          ) => <Tag color="green">{record.productId?record.quantity * record.productId.price:"..."} ETB</Tag>}
+        /> 
       </Table>
     </>
   );

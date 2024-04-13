@@ -1,4 +1,4 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Button,
@@ -35,16 +35,17 @@ interface FieldType {
 const ProductForm = ({ id }: { id: string | undefined }) => {
   const { token } = useToken();
   const [fileList, setFileList] = useState<any[]>([]);
+  const [form] = Form.useForm();
 
   const [api, contextHolder] = useNotification();
 
-  const {  isPending} = useMutation({
+  const { isPending } = useMutation({
     mutationFn: addProduct,
     onSuccess: (data) => {
-      showNotification("success",data.message);
+      showNotification("success", data.message);
     },
     onError: (error) => {
-      showNotification("error",error.message);
+      showNotification("error", error.message);
     },
   });
 
@@ -66,20 +67,41 @@ const ProductForm = ({ id }: { id: string | undefined }) => {
     }
   }, [error]);
 
-  isSuccess && console.log(data.data.product);
-  const onFinish = () => {
-    // const formData = new FormData();
-    // formData.append("name", values.productName);
-    // formData.append("description", values.description);
-    // formData.append("category", values.category);
-    // formData.append("price", values.price.toString());
-    // values.types.forEach((type, index) => {
-    //   formData.append(`types[${index}][color]`, `#${type.color.toHex()}`);
-    //   formData.append(`types[${index}][quantity]`, type.quantity.toString());
-    // });
+  useEffect(() => {
+    if (isSuccess) {
+      form.setFieldsValue({
+        productName: data.data.product.name,
+        price: data.data.product.price,
+        description: data.data.product.description,
+        category: data.data.product.category,
+        types: data.data.product.types,
+        images: data.data.product.images,
+      });
+
+      setFileList(data.data.product.images);
+    }
+  }, [isSuccess]);
+
+  const onFinish = (values: FieldType) => {
+    const formData = new FormData();
+    formData.append("name", values.productName);
+    formData.append("description", values.description);
+    formData.append("category", values.category);
+    formData.append("price", values.price.toString());
+    values.types.forEach((type, index) => {
+      typeof type.color !== "string"
+        ? formData.append(`types[${index}][color]`, `#${type.color.toHex()}`)
+        : formData.append(`types[${index}][color]`, `${type.color}`);
+      formData.append(`types[${index}][quantity]`, type.quantity.toString());
+    });
+
     // fileList.forEach((image) => {
     //   formData.append("files", image);
     // });
+
+    for (const iterator of formData) {
+      console.log(iterator);
+    }
     // mutate(formData);
   };
 
@@ -90,7 +112,7 @@ const ProductForm = ({ id }: { id: string | undefined }) => {
         name="editProduct"
         onFinish={onFinish}
         layout="vertical"
-        // initialValues={{productName:isSuccess?`${data.data.product.name}`:""}}
+        form={form}
       >
         <Flex gap={30}>
           <div style={{ width: "60%" }}>
@@ -103,10 +125,7 @@ const ProductForm = ({ id }: { id: string | undefined }) => {
                 ]}
                 style={{ flex: 1 }}
               >
-                <Input
-                  size="large"
-                  placeholder="Please input product name"
-                />
+                <Input size="large" placeholder="Please input product name" />
               </Form.Item>
               <Form.Item<FieldType>
                 label="Price"
@@ -229,9 +248,9 @@ const ProductForm = ({ id }: { id: string | undefined }) => {
             <Form.Item
               label="Image"
               name="image"
-              rules={[
-                { required: true, message: "Please input product image!" },
-              ]}
+              // rules={[
+              //   { required: true, message: "Please input product image!" },
+              // ]}
             >
               <Row gutter={[16, 16]}>
                 {fileList.map((e, i) => {
@@ -255,8 +274,13 @@ const ProductForm = ({ id }: { id: string | undefined }) => {
                           padding: 10,
                         }}
                       >
+                        {}
                         <img
-                          src={URL.createObjectURL(e)}
+                          src={
+                            typeof e === "string"
+                              ? `${import.meta.env.VITE_API_BACKEND_URL}${e}`
+                              : URL.createObjectURL(e)
+                          }
                           style={{
                             width: "100%",
                             height: "100%",
