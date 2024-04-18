@@ -42,6 +42,27 @@ export function addProduct(formData: FormData) {
     });
 }
 
+export function editProduct({
+  formData,
+  id,
+}: {
+  formData: FormData;
+  id: string;
+}) {
+  const token = Cookies.get("token");
+
+  return axiosInstance
+    .patch(`/products/${id}/edit`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => res.data)
+    .catch((error) => {
+      throw error.response.data;
+    });
+}
+
 export function deleteProduct({ id }: { id: string }) {
   const token = Cookies.get("token");
   return axiosInstance

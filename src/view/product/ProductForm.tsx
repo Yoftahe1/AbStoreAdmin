@@ -17,7 +17,7 @@ import {
 import ImgCrop from "antd-img-crop";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { addProduct, findOneProduct } from "../../api/product";
+import { editProduct, findOneProduct } from "../../api/product";
 import { catagories } from "../../constants/constant";
 
 const { useToken } = theme;
@@ -39,12 +39,13 @@ const ProductForm = ({ id }: { id: string | undefined }) => {
 
   const [api, contextHolder] = useNotification();
 
-  const { isPending } = useMutation({
-    mutationFn: addProduct,
+  const { mutate, isPending } = useMutation({
+    mutationFn: editProduct,
     onSuccess: (data) => {
       showNotification("success", data.message);
     },
     onError: (error) => {
+      console.log(error)
       showNotification("error", error.message);
     },
   });
@@ -95,14 +96,17 @@ const ProductForm = ({ id }: { id: string | undefined }) => {
       formData.append(`types[${index}][quantity]`, type.quantity.toString());
     });
 
-    // fileList.forEach((image) => {
-    //   formData.append("files", image);
-    // });
+    const newImages = fileList.filter((e) => typeof e !== "string");
 
-    for (const iterator of formData) {
-      console.log(iterator);
-    }
-    // mutate(formData);
+    newImages.forEach((image) => {
+      formData.append("files", image);
+    });
+
+    // for (const iterator of formData) {
+    //   console.log(iterator);
+    // }
+
+    mutate({ formData, id: `${id}` });
   };
 
   return (
