@@ -10,11 +10,7 @@ import {
   Typography,
   notification,
 } from "antd";
-import {
-  PhoneFilled,
-  EyeOutlined,
-  PushpinFilled,
-} from "@ant-design/icons";
+import { PhoneFilled, EyeOutlined, PushpinFilled } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -79,13 +75,15 @@ const OrderTable = () => {
           title="Full Name"
           dataIndex="userInfo"
           key="fullName"
-          render={(userInfo: { firstName: string; lastName: string }[]) => (
+          render={(userInfo) => (
             <Space>
               <Avatar style={{ backgroundColor: "#1677ff" }}>
-                {userInfo[0].firstName[0]}
+                {userInfo.length !== 0 ? userInfo[0].firstName[0] : "."}
               </Avatar>
               <Text>
-                {userInfo[0].firstName} {userInfo[0].lastName}
+                {userInfo.length !== 0
+                  ? `${userInfo[0].firstName} ${userInfo[0].lastName}`
+                  : "..."}
               </Text>
             </Space>
           )}
@@ -94,10 +92,12 @@ const OrderTable = () => {
           title="Phone Number"
           dataIndex="userInfo"
           key="phoneNumber"
-          render={(userInfo: { phoneNumber: number }[]) => (
+          render={(userInfo) => (
             <Space>
-              <PhoneFilled style={{ color: "#52c41a" }} />{" "}
-              <Text>+251{userInfo[0].phoneNumber}</Text>
+              <PhoneFilled style={{ color: "#52c41a" }} />
+              <Text>
+                +251{userInfo.length !== 0 ? userInfo[0].phoneNumber : "..."}
+              </Text>
             </Space>
           )}
         />
@@ -105,11 +105,13 @@ const OrderTable = () => {
           title="Address"
           dataIndex="userInfo"
           key="address"
-          render={(userInfo: { location: string }[]) => {
+          render={(userInfo) => {
             return (
               <Space>
-                <PushpinFilled style={{ color: "#FF4D4F" }} />{" "}
-                <Text>{userInfo[0].location}</Text>
+                <PushpinFilled style={{ color: "#FF4D4F" }} />
+                <Text>
+                  {userInfo.length !== 0 ? userInfo[0].location : "..."}
+                </Text>
               </Space>
             );
           }}
