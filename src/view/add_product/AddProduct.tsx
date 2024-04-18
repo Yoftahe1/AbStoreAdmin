@@ -44,6 +44,7 @@ const AddProduct = () => {
     mutationFn: addProduct,
     onSuccess: (data) => {
       form.resetFields();
+      setFileList([])
       showNotification("success", data.message);
     },
     onError: (error) => {
