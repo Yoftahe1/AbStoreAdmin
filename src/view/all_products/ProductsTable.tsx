@@ -120,7 +120,7 @@ const ProductsTable = () => {
                 borderRadius: 20,
               }}
             >
-              <StarFilled style={{ color: "#FADB14" }} /> {rating} Stars
+              <StarFilled style={{ color: "#FADB14" }} /> {rating.toFixed(2)} Stars
             </Tag>
           )}
         />

@@ -107,7 +107,6 @@ const AppLayout = ({ children }: IProps) => {
                 color: "#1677FF",
                 margin: 0,
                 fontWeight: "bold", 
-                fontFamily: "serif",
                 wordBreak:"keep-all"
               }} 
             >
