@@ -88,7 +88,7 @@ const Today = () => {
                         : "warning"
                     }
                   >
-                    {item.change}%
+                    {item.change.toFixed(2)}%
                   </Text>
                   <Text type="secondary">vs yesterday</Text>
                 </Flex>
